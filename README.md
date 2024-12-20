@@ -92,6 +92,39 @@ A scalable notification system built using Node.js.
   }
   ```
 
+## Docker Setup
+
+### Building the Docker Image
+
+1. Ensure Docker is installed on your machine.
+2. Build the Docker image:
+   ```bash
+   docker build -t notification-system .
+   ```
+
+### Running the Docker Container
+
+1. Run the Docker container:
+   ```bash
+   docker run -p 4000:4000 --env-file .env notification-system
+   ```
+
+## Kubernetes Setup
+
+### Deploying to Kubernetes
+
+1. Ensure you have `kubectl` and a Kubernetes cluster set up.
+2. Create a Kubernetes deployment and service configuration file (e.g., `k8s-deployment.yaml`).
+3. Apply the configuration:
+   ```bash
+   kubectl apply -f k8s-deployment.yaml
+   ```
+
+### AWS EKS Deployment
+
+1. Set up an Amazon EKS cluster.
+2. Use `kubectl` to deploy your application to the EKS cluster using the same configuration file.
+
 ## AWS Deployment Considerations
 
 For detailed AWS deployment considerations, refer to the [AWS Deployment Considerations](AWS_Deployment_Considerations.md) document.
