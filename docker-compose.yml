@@ -1,0 +1,84 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./logs:/usr/src/app/logs
+    environment:
+      - NODE_ENV=production
+      - API_PORT=4000
+      - HOST=0.0.0.0
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_APP_PASSWORD=${SMTP_APP_PASSWORD}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+    depends_on:
+      - rabbitmq
+    networks:
+      - notification-network
+    restart: unless-stopped
+
+  email-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.email-service
+    volumes:
+      - ./logs:/usr/src/app/logs
+    environment:
+      - NODE_ENV=production
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_APP_PASSWORD=${SMTP_APP_PASSWORD}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME}
+    depends_on:
+      - rabbitmq
+    networks:
+      - notification-network
+    restart: unless-stopped
+
+  sms-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.sms-service
+    environment:
+      - NODE_ENV=production
+      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+    depends_on:
+      - rabbitmq
+    networks:
+      - notification-network
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - notification-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  rabbitmq-data:
+
+networks:
+  notification-network:
+    driver: bridge
