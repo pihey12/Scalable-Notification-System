@@ -1,0 +1,21 @@
+# Design Report for Notification System
+
+## Design Decisions
+
+The design of the notification system was driven by the need for scalability, reliability, and ease of integration with various notification channels. Key design decisions included:
+
+- **Microservices Architecture**: The system is designed using a microservices architecture to ensure scalability and maintainability. Each notification channel (email, SMS, push) is handled by a separate service.
+- **Node.js and Express**: Chosen for their lightweight and efficient handling of asynchronous operations, which is crucial for handling multiple notification requests concurrently.
+- **AWS Deployment**: Leveraging AWS services such as EC2, RDS, and SNS to ensure high availability and reliability.
+
+## Challenges and Solutions
+
+During the development of the notification system, several challenges were encountered:
+
+- **Rate Limiting**: To prevent abuse and ensure fair usage, implementing rate limiting was crucial. This was addressed using the `express-rate-limit` middleware, which allows for easy configuration of request limits.
+- **Circuit Breaker Pattern**: To handle failures gracefully, especially when external services are down, the circuit breaker pattern was implemented using the `opossum` library. This helps in preventing cascading failures and provides fallback mechanisms.
+- **Environment Configuration**: Managing different configurations for development, testing, and production environments was a challenge. This was addressed by using the `dotenv` package to manage environment variables effectively.
+
+## Conclusion
+
+The notification system is designed to be robust and scalable, capable of handling a large volume of notifications across different channels. By leveraging modern technologies and best practices, the system is well-equipped to meet the demands of a dynamic and growing user base.
