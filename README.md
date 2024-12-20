@@ -36,13 +36,17 @@ A scalable notification system built using Node.js.
 
 ### Configuration
 
-1. Create a `.env` file in the root directory of your project and add the necessary environment variables. For example:
+1. Create a `.env` file in the root directory of your project and add the necessary environment variables. Use the following as an example:
    ```
-   PORT=3000
-   EMAIL_SERVICE=your_email_service
+   PORT=4000
+   EMAIL_SERVICE=smtp.example.com
    EMAIL_USER=your_email@example.com
    EMAIL_PASS=your_email_password
+   TWILIO_ACCOUNT_SID=your_twilio_account_sid
+   TWILIO_AUTH_TOKEN=your_twilio_auth_token
+   TWILIO_PHONE_NUMBER=your_twilio_phone_number
    ```
+   Replace `smtp.example.com`, `your_email@example.com`, `your_email_password`, `your_twilio_account_sid`, `your_twilio_auth_token`, and `your_twilio_phone_number` with your actual SMTP and Twilio account details.
 
 ### Running the Service
 
@@ -51,7 +55,7 @@ A scalable notification system built using Node.js.
   npm start
   ```
 
-- The server will be running at `http://localhost:3000` by default.
+- The server will be running at `http://localhost:4000` by default.
 
 ### Testing
 
