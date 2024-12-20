@@ -10,11 +10,9 @@
 - **Amazon CloudWatch**: For monitoring and logging.
 - **AWS IAM**: For managing access and permissions.
 
-## High-Level Architecture Diagram
+## High-Level Architecture Overview
 
-![AWS Architecture Diagram](aws_architecture_diagram.png)
-
-The diagram above illustrates the deployment architecture on AWS, showing how the services are interconnected to support the notification system.
+The following description outlines the deployment architecture on AWS, showing how the services are interconnected to support the notification system.
 
 ## Diagram Description
 
